@@ -175,4 +175,16 @@
   .animate-grow-bar {
     animation: grow-bar 1.2s ease-out forwards;
   }
+
+  @keyframes mic-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 oklch(0.58 0.23 27 / 0.6); }
+    50% { box-shadow: 0 0 0 10px oklch(0.58 0.23 27 / 0); }
+  }
+  .animate-mic-pulse { animation: mic-pulse 1.2s ease-out infinite; }
+
+  @keyframes soft-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.85; transform: scale(1.05); }
+  }
+  .animate-soft-pulse { animation: soft-pulse 2s ease-in-out infinite; }
 }
