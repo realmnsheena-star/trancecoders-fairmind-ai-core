@@ -187,4 +187,63 @@
     50% { opacity: 0.85; transform: scale(1.05); }
   }
   .animate-soft-pulse { animation: soft-pulse 2s ease-in-out infinite; }
+
+  /* Premium animated gradient background — neon blobs */
+  @keyframes blob-drift-1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(8%, -6%) scale(1.15); }
+    66% { transform: translate(-6%, 10%) scale(0.9); }
+  }
+  @keyframes blob-drift-2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(-10%, 8%) scale(0.95); }
+    66% { transform: translate(12%, -4%) scale(1.2); }
+  }
+  @keyframes blob-drift-3 {
+    0%, 100% { transform: translate(0, 0) scale(1.05); }
+    50% { transform: translate(6%, 12%) scale(1.25); }
+  }
+  @keyframes blob-pulse {
+    0%, 100% { opacity: 0.55; }
+    50% { opacity: 0.85; }
+  }
+
+  .neon-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    background: radial-gradient(ellipse at top, oklch(0.18 0.06 280) 0%, oklch(0.10 0.04 270) 60%, oklch(0.08 0.03 265) 100%);
+    pointer-events: none;
+  }
+  .neon-blob {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(90px);
+    will-change: transform, opacity;
+    mix-blend-mode: screen;
+  }
+  .neon-blob-1 {
+    width: 50vw; height: 50vw;
+    top: -10%; left: -10%;
+    background: radial-gradient(circle, oklch(0.65 0.28 295) 0%, transparent 70%);
+    animation: blob-drift-1 22s ease-in-out infinite, blob-pulse 8s ease-in-out infinite;
+  }
+  .neon-blob-2 {
+    width: 55vw; height: 55vw;
+    bottom: -15%; right: -10%;
+    background: radial-gradient(circle, oklch(0.62 0.25 255) 0%, transparent 70%);
+    animation: blob-drift-2 26s ease-in-out infinite, blob-pulse 10s ease-in-out infinite;
+  }
+  .neon-blob-3 {
+    width: 40vw; height: 40vw;
+    top: 30%; left: 35%;
+    background: radial-gradient(circle, oklch(0.65 0.30 340) 0%, transparent 70%);
+    animation: blob-drift-3 30s ease-in-out infinite, blob-pulse 12s ease-in-out infinite;
+  }
+  .neon-grain {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 0%, oklch(0.08 0.03 265 / 0.4) 100%);
+  }
 }
