@@ -1,9 +1,5 @@
 import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import { Toaster } from "@/components/ui/sonner";
-import { Navbar } from "@/components/site/Navbar";
-import { Footer } from "@/components/site/Footer";
-import { Chatbot } from "@/components/site/Chatbot";
-import { NeonBackground } from "@/components/site/NeonBackground";
 
 import appCss from "../styles.css?url";
 
@@ -34,14 +30,18 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "FairMind AI — Unbiased AI Decision Maker" },
+      { title: "FairMind AI — By TranceCoders" },
       { name: "description", content: "FairMind AI removes bias from decisions — no gender, no race, no age. Just facts. Try the explainable, fair AI decision tool." },
-      { name: "author", content: "TranceCoders" },
-      { property: "og:title", content: "FairMind AI — Unbiased AI Decision Maker" },
-      { property: "og:description", content: "Fair, transparent, explainable AI decisions with bias attributes automatically removed." },
+      { name: "author", content: "FairMind AI" },
+      { property: "og:title", content: "FairMind AI — By TranceCoders" },
+      { property: "og:description", content: "FairMind AI removes bias from decisions — no gender, no race, no age. Just facts. Try the explainable, fair AI decision tool." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "FairMind AI — By TranceCoders" },
+      { name: "twitter:description", content: "FairMind AI removes bias from decisions — no gender, no race, no age. Just facts. Try the explainable, fair AI decision tool." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/266faf8f-a93c-47ce-802c-ec9535cc03e7" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/266faf8f-a93c-47ce-802c-ec9535cc03e7" },
     ],
     links: [
       {
@@ -75,15 +75,7 @@ function RootShell({ children }: { children: React.ReactNode }) {
 function RootComponent() {
   return (
     <>
-      <NeonBackground />
-      <div className="min-h-screen flex flex-col text-foreground">
-        <Navbar />
-        <main className="flex-1">
-          <Outlet />
-        </main>
-        <Footer />
-      </div>
-      <Chatbot />
+      <Outlet />
       <Toaster position="top-right" richColors />
     </>
   );
