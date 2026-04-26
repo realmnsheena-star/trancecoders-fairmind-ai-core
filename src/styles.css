@@ -191,42 +191,21 @@
   /* Premium animated gradient background — neon blobs */
   @keyframes blob-drift-1 {
     0%, 100% { transform: translate(0, 0) scale(1); }
-    25% { transform: translate(15%, -10%) scale(1.15); }
-    50% { transform: translate(20%, 12%) scale(1.05); }
-    75% { transform: translate(-12%, 8%) scale(0.92); }
+    33% { transform: translate(8%, -6%) scale(1.15); }
+    66% { transform: translate(-6%, 10%) scale(0.9); }
   }
   @keyframes blob-drift-2 {
     0%, 100% { transform: translate(0, 0) scale(1); }
-    25% { transform: translate(-18%, 10%) scale(1.1); }
-    50% { transform: translate(-10%, -14%) scale(0.95); }
-    75% { transform: translate(15%, -6%) scale(1.2); }
+    33% { transform: translate(-10%, 8%) scale(0.95); }
+    66% { transform: translate(12%, -4%) scale(1.2); }
   }
   @keyframes blob-drift-3 {
     0%, 100% { transform: translate(0, 0) scale(1.05); }
-    25% { transform: translate(-12%, 8%) scale(1.15); }
-    50% { transform: translate(10%, 16%) scale(1.25); }
-    75% { transform: translate(14%, -8%) scale(1.1); }
+    50% { transform: translate(6%, 12%) scale(1.25); }
   }
   @keyframes blob-pulse {
     0%, 100% { opacity: 0.55; }
     50% { opacity: 0.85; }
-  }
-
-  /* Flowing wave layers */
-  @keyframes wave-flow-1 {
-    0% { transform: translateX(-50%) translateY(0) rotate(0deg); }
-    50% { transform: translateX(-25%) translateY(-3%) rotate(2deg); }
-    100% { transform: translateX(-50%) translateY(0) rotate(0deg); }
-  }
-  @keyframes wave-flow-2 {
-    0% { transform: translateX(-25%) translateY(0) rotate(0deg); }
-    50% { transform: translateX(-50%) translateY(3%) rotate(-2deg); }
-    100% { transform: translateX(-25%) translateY(0) rotate(0deg); }
-  }
-  @keyframes wave-flow-3 {
-    0% { transform: translateX(-40%) translateY(2%) rotate(-1deg); }
-    50% { transform: translateX(-30%) translateY(-2%) rotate(1deg); }
-    100% { transform: translateX(-40%) translateY(2%) rotate(-1deg); }
   }
 
   .neon-bg {
@@ -248,45 +227,19 @@
     width: 50vw; height: 50vw;
     top: -10%; left: -10%;
     background: radial-gradient(circle, oklch(0.65 0.28 295) 0%, transparent 70%);
-    animation: blob-drift-1 18s ease-in-out infinite, blob-pulse 7s ease-in-out infinite;
+    animation: blob-drift-1 22s ease-in-out infinite, blob-pulse 8s ease-in-out infinite;
   }
   .neon-blob-2 {
     width: 55vw; height: 55vw;
     bottom: -15%; right: -10%;
     background: radial-gradient(circle, oklch(0.62 0.25 255) 0%, transparent 70%);
-    animation: blob-drift-2 20s ease-in-out infinite, blob-pulse 9s ease-in-out infinite;
+    animation: blob-drift-2 26s ease-in-out infinite, blob-pulse 10s ease-in-out infinite;
   }
   .neon-blob-3 {
     width: 40vw; height: 40vw;
     top: 30%; left: 35%;
     background: radial-gradient(circle, oklch(0.65 0.30 340) 0%, transparent 70%);
-    animation: blob-drift-3 24s ease-in-out infinite, blob-pulse 11s ease-in-out infinite;
-  }
-  .neon-wave {
-    position: absolute;
-    left: 0;
-    width: 200%;
-    height: 60vh;
-    border-radius: 45% 55% 50% 50% / 40% 45% 55% 60%;
-    filter: blur(70px);
-    mix-blend-mode: screen;
-    will-change: transform;
-    opacity: 0.5;
-  }
-  .neon-wave-1 {
-    top: 10%;
-    background: linear-gradient(90deg, oklch(0.55 0.25 290 / 0.5), oklch(0.6 0.22 260 / 0.4), oklch(0.55 0.25 290 / 0.5));
-    animation: wave-flow-1 14s ease-in-out infinite;
-  }
-  .neon-wave-2 {
-    bottom: 5%;
-    background: linear-gradient(90deg, oklch(0.6 0.25 320 / 0.5), oklch(0.55 0.22 280 / 0.4), oklch(0.6 0.25 320 / 0.5));
-    animation: wave-flow-2 18s ease-in-out infinite;
-  }
-  .neon-wave-3 {
-    top: 45%;
-    background: linear-gradient(90deg, oklch(0.6 0.22 250 / 0.4), oklch(0.6 0.28 330 / 0.4), oklch(0.6 0.22 250 / 0.4));
-    animation: wave-flow-3 22s ease-in-out infinite;
+    animation: blob-drift-3 30s ease-in-out infinite, blob-pulse 12s ease-in-out infinite;
   }
   .neon-grain {
     position: absolute;
