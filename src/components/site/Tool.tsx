@@ -15,20 +15,56 @@ interface Result {
 interface FormData {
   income: string; creditScore: string; experience: string; education: string;
   employmentType: string; dependents: string;
+  country: string;
   gender: string; age: string; maritalStatus: string; disabilityStatus: string;
 }
 const EMPTY_FORM: FormData = {
   income: "", creditScore: "", experience: "", education: "",
   employmentType: "", dependents: "",
+  country: "",
   gender: "", age: "", maritalStatus: "", disabilityStatus: "",
 };
 const BIAS_FIELDS = ["gender", "age", "maritalStatus", "disabilityStatus"] as const;
 
+// Country → currency, locale, and approximate annual income threshold (in local currency).
+// Threshold roughly reflects local middle-income levels so decisions adapt to economy.
+const COUNTRY_INFO: Record<string, { currency: string; locale: string; incomeThreshold: number }> = {
+  "United States":  { currency: "USD", locale: "en-US", incomeThreshold: 40000 },
+  "Canada":         { currency: "CAD", locale: "en-CA", incomeThreshold: 50000 },
+  "United Kingdom": { currency: "GBP", locale: "en-GB", incomeThreshold: 30000 },
+  "Eurozone (EU)":  { currency: "EUR", locale: "en-IE", incomeThreshold: 35000 },
+  "Australia":      { currency: "AUD", locale: "en-AU", incomeThreshold: 55000 },
+  "India":          { currency: "INR", locale: "en-IN", incomeThreshold: 600000 },
+  "Japan":          { currency: "JPY", locale: "ja-JP", incomeThreshold: 4000000 },
+  "Brazil":         { currency: "BRL", locale: "pt-BR", incomeThreshold: 60000 },
+  "Nigeria":        { currency: "NGN", locale: "en-NG", incomeThreshold: 3000000 },
+  "South Africa":   { currency: "ZAR", locale: "en-ZA", incomeThreshold: 250000 },
+  "UAE":            { currency: "AED", locale: "en-AE", incomeThreshold: 120000 },
+  "Singapore":      { currency: "SGD", locale: "en-SG", incomeThreshold: 50000 },
+};
+const COUNTRY_LIST = Object.keys(COUNTRY_INFO);
+const DEFAULT_INFO = { currency: "USD", locale: "en-US", incomeThreshold: 40000 };
+
+function getCountryInfo(country: string) {
+  return COUNTRY_INFO[country] ?? DEFAULT_INFO;
+}
+function formatMoney(amount: number, country: string) {
+  const { currency, locale } = getCountryInfo(country);
+  try {
+    return new Intl.NumberFormat(locale, { style: "currency", currency, maximumFractionDigits: 0 }).format(amount);
+  } catch {
+    return `${currency} ${amount}`;
+  }
+}
+
 function makeDecision(data: FormData): Result {
   let score = 0;
   const breakdown: BreakdownRow[] = [];
-  if (Number(data.income) > 40000) { score++; breakdown.push({ f: "Annual Income", v: "$" + data.income, s: "✅ +1" }); }
-  else { breakdown.push({ f: "Annual Income", v: data.income ? "$" + data.income : "—", s: "❌ 0" }); }
+  const info = getCountryInfo(data.country);
+  const incomeNum = Number(data.income);
+  const incomeDisplay = data.income ? formatMoney(incomeNum, data.country) : "—";
+  if (incomeNum > info.incomeThreshold) { score++; breakdown.push({ f: "Annual Income", v: incomeDisplay, s: "✅ +1" }); }
+  else { breakdown.push({ f: "Annual Income", v: incomeDisplay, s: "❌ 0" }); }
   if (Number(data.creditScore) > 650) { score++; breakdown.push({ f: "Credit Score", v: data.creditScore, s: "✅ +1" }); }
   else { breakdown.push({ f: "Credit Score", v: data.creditScore || "—", s: "❌ 0" }); }
   if (Number(data.experience) > 2) { score++; breakdown.push({ f: "Experience", v: data.experience + " yrs", s: "✅ +1" }); }
@@ -38,6 +74,7 @@ function makeDecision(data: FormData): Result {
   if (data.employmentType === "Full-time") { score++; breakdown.push({ f: "Employment", v: data.employmentType, s: "✅ +1" }); }
   else { breakdown.push({ f: "Employment", v: data.employmentType || "—", s: "➖ 0" }); }
   breakdown.push({ f: "Dependents", v: data.dependents || "0", s: "➖ 0" });
+  breakdown.push({ f: "Country", v: data.country || "—", s: `➖ ${info.currency}` });
 
   const biasRemoved = (BIAS_FIELDS as readonly string[]).filter((f) => {
     const v = (data as unknown as Record<string, string>)[f];
@@ -98,6 +135,7 @@ export function Tool() {
 
   const handleAnalyze = () => {
     const newErrors: Record<string, boolean> = {};
+    if (!data.country) newErrors.country = true;
     if (!data.income) newErrors.income = true;
     if (!data.creditScore) newErrors.creditScore = true;
     if (!data.experience) newErrors.experience = true;
@@ -198,8 +236,13 @@ export function Tool() {
           <div className="border-l-4 border-success pl-4 mb-6">
             <p className="text-sm font-semibold text-success mb-4">✅ These factors ARE used in the decision</p>
             <div className="space-y-4">
-              {fieldRow("Annual Income ($) *", "income",
-                <input type="number" value={data.income} onChange={(e) => set("income", e.target.value)} placeholder="e.g. 45000" className={inputCls(errors.income)} />)}
+              {fieldRow("Country *", "country",
+                <select value={data.country} onChange={(e) => set("country", e.target.value)} className={inputCls(errors.country)}>
+                  <option value="">Select your country...</option>
+                  {COUNTRY_LIST.map((c) => <option key={c} value={c}>{c} ({COUNTRY_INFO[c].currency})</option>)}
+                </select>)}
+              {fieldRow(`Annual Income (${getCountryInfo(data.country).currency}) *`, "income",
+                <input type="number" value={data.income} onChange={(e) => set("income", e.target.value)} placeholder={`e.g. ${getCountryInfo(data.country).incomeThreshold}`} className={inputCls(errors.income)} />)}
               {fieldRow("Credit Score *", "creditScore",
                 <input type="number" value={data.creditScore} onChange={(e) => set("creditScore", e.target.value)} placeholder="e.g. 700 (300–850)" className={inputCls(errors.creditScore)} />)}
               {fieldRow("Years of Experience *", "experience",
