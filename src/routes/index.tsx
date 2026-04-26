@@ -919,31 +919,6 @@ function WhyMatters() {
   );
 }
 
-function TechStack() {
-  const items = [
-    "🌐 HTML5 / CSS3 / JavaScript",
-    "🎨 Tailwind CSS",
-    "🎙️ Web Speech API (Voice Input + Output)",
-    "🤖 Rule-Based Fairness Engine",
-    "☁️ Cloud Deployed",
-  ];
-  return (
-    <section className="py-20 px-6 bg-card">
-      <div className="max-w-6xl mx-auto text-center">
-        <h2 className="text-3xl md:text-4xl font-extrabold mb-10">Built With</h2>
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-          {items.map((i) => (
-            <div key={i} className="bg-background border border-border rounded-xl py-6 px-3 font-semibold text-sm hover:border-primary transition-colors">
-              {i}
-            </div>
-          ))}
-        </div>
-        <p className="text-muted-foreground text-sm mt-6">No external AI API used. Logic is transparent and fully explainable.</p>
-      </div>
-    </section>
-  );
-}
-
 function Footer() {
   return (
     <footer className="text-white py-12 px-6" style={{ backgroundColor: "oklch(0.18 0.04 270)" }}>
@@ -983,7 +958,6 @@ function Index() {
       <Tool />
       <HowItWorks />
       <WhyMatters />
-      <TechStack />
       <Footer />
       <Chatbot />
     </div>
