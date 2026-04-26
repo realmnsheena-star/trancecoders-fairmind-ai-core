@@ -175,6 +175,9 @@ export function Tool() {
     };
     setVoiceMode(true);
     try {
+      const countryT = await askAndListen("Which country are you in? For example, United States, India, or United Kingdom.");
+      const matchedCountry = matchOption(countryT, COUNTRY_LIST) || "";
+      setData((d) => ({ ...d, country: matchedCountry }));
       const incomeT = await askAndListen("What is your annual income?");
       setData((d) => ({ ...d, income: incomeT.replace(/[^0-9]/g, "") }));
       const creditT = await askAndListen("What is your credit score?");
